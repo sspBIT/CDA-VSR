@@ -1,0 +1,89 @@
+# general settings
+name: 251106_CDA-VSR_REDS4
+model_type: VideoRecurrentModel
+scale: 4
+num_gpu: 1  # official: 8 GPUs
+manual_seed: 0
+
+datasets:
+  test_0:
+    name: REDS4_CRF18
+    type: VideoRecurrentPriorTestDataset
+    dataroot_gt: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF18/GT
+    dataroot_lq: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF18/deLR
+    dataroot_mv: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF18/mvs
+    dataroot_res: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF18/residual_y
+    io_backend:
+      type: disk
+
+    cache_data: false
+    num_frame: -1
+
+  test_1:
+    name: REDS4_CRF23
+    type: VideoRecurrentPriorTestDataset
+    dataroot_gt: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF23/GT
+    dataroot_lq: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF23/deLR
+    dataroot_mv: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF23/mvs
+    dataroot_res: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF23/residual_y
+    io_backend:
+      type: disk
+
+    cache_data: false
+    num_frame: -1
+
+  test_2:
+    name: REDS4_CRF28
+    type: VideoRecurrentPriorTestDataset
+    dataroot_gt: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF28/GT
+    dataroot_lq: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF28/deLR
+    dataroot_mv: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF28/mvs
+    dataroot_res: /home/wyh/dir/REDS_CRF18_23_28/test/REDS4_CRF28/residual_y
+    io_backend:
+      type: disk
+
+    cache_data: false
+    num_frame: -1
+
+
+# network structures
+network_g:
+  type: OVSR
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_frame: 25
+  num_extract_block: 3
+  center_frame_idx: None
+  hr_in: False
+  spynet_path: /home/wyh/dir/5/SSL-master/experiments/pretrained_models/flownet/spynet_sintel_final-3d2a1287.pth
+
+# path
+path:
+  pretrain_network_g: /home/wyh/dir/5/OVSR1/experiments/250711_ovsr_lhr_Conv_lhcres_256/models/net_g_290000.pth
+  strict_load_g: true
+  param_key_g: params
+
+# validation settings
+val:
+  save_img: true
+  suffix: ~  # add suffix to saved images, if None, use exp name
+  flip_seq: false
+  center_frame_only: false
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+
+    ssim: # metric name, can be arbitrary
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: false
+
+    lpips: # metric name, can be arbitrary
+      type: calculate_lpips
+      crop_border: 0
+      test_y_channel: false
+

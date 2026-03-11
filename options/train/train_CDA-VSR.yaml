@@ -1,0 +1,130 @@
+# general settings
+name: train_CDA-VSR
+model_type: VideoRecurrentModel
+scale: 4
+num_gpu: auto  # official: 2 GPUs
+manual_seed: 0
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: REDS
+    type: REDSRecurrentPriorDataset
+    dataroot_gt: /home/wyh/dir/REDS_CRF18_23_28_new/train/GT
+    dataroot_lq: /home/wyh/dir/REDS_CRF18_23_28_new/train/deLR
+    dataroot_mv: /home/wyh/dir/REDS_CRF18_23_28_new/train/mvs
+    dataroot_res: /home/wyh/dir/REDS_CRF18_23_28_new/train/residual_y
+    meta_info_file: /home/wyh/dir/5/CDA-VSR/basicsr/data/meta_info/meta_info_REDS_GT.txt
+    val_partition: REDS4  # set to 'official' when use the official validation partition
+    test_mode: False
+    io_backend:
+      type: disk
+
+    num_frame: 25
+    gt_size: 256
+    interval_list: [1]
+    random_reverse: false
+    use_hflip: true
+    use_rot: true
+
+    # data loader
+    num_worker_per_gpu: 6
+    batch_size_per_gpu: 4
+#    batch_size_per_gpu: 1 # only for testing code
+    dataset_enlarge_ratio: 100
+    prefetch_mode: ~
+    pin_memory: True
+
+  val:
+    name: REDS4
+    type: VideoRecurrentPriorTestDataset
+    dataroot_gt: /home/wyh/dir/REDS_CRF18_23_28_new/test/REDS4_CRF18/GT
+    dataroot_lq: /home/wyh/dir/REDS_CRF18_23_28_new/test/REDS4_CRF18/deLR
+    dataroot_mv: /home/wyh/dir/REDS_CRF18_23_28_new/test/REDS4_CRF18/mvs
+    dataroot_res: /home/wyh/dir/REDS_CRF18_23_28_new/test/REDS4_CRF18/residual_y
+
+    cache_data: false
+    io_backend:
+     type: disk
+
+    num_frame: -1
+
+
+# network structures
+network_g:
+  type: CDAVSR
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_extract_block: 3
+  num_reconstruct_block_I: 24
+  num_reconstruct_block_P: 12
+  num_frame: 25
+  center_frame_idx: None
+
+# path
+path:
+  pretrain_network_g: ~
+  strict_load_g: true
+  resume_state: ~
+
+# training settings
+train:
+  ema_decay: 0.999
+  optim_g:
+    type: Adam
+    lr: !!float 2e-4
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  scheduler:
+    type: CosineAnnealingRestartLR
+    periods: [300000]
+    restart_weights: [1]
+    eta_min: !!float 1e-7
+    # type: MultiStepRestartLR
+    # milestones: [20000,40000]
+    # gamma: 0.1
+
+  total_iter: 300000
+  warmup_iter: -1  # no warm up
+#  fix_flow: 5000
+#  flow_lr_mul: 0.125
+
+  # losses
+  pixel_opt:
+    type: CharbonnierLoss
+    loss_weight: 1.0
+    reduction: mean
+
+val:
+  val_freq: !!float 5e3
+  save_img: false
+
+  metrics:
+    psnr:
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+
+    ssim:
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: false
+
+
+# logging settings
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 5e3
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500
+
+find_unused_parameters: true

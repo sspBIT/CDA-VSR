@@ -1,0 +1,81 @@
+# general settings
+name: 251106_CDA-VSR_Inter4K
+model_type: VideoRecurrentModel
+scale: 4
+num_gpu: 1  # official: 8 GPUs
+manual_seed: 0
+
+datasets:
+  test_1:
+    name: 720P_CRF23
+    type: VideoRecurrentPriorTestDataset
+    dataroot_gt: /home/wyh/dir/Inter4K_choose/720P/GT
+    dataroot_lq: /home/wyh/dir/Inter4K_choose/720P/deLR
+    dataroot_mv: /home/wyh/dir/Inter4K_choose/720P/mvs
+    dataroot_res: /home/wyh/dir/Inter4K_choose/720P/residual_y
+    io_backend:
+      type: disk
+
+    cache_data: false
+    num_frame: -1
+
+  test_2:
+    name: 1080P_CRF23
+    type: VideoRecurrentPriorTestDataset
+    dataroot_gt: /home/wyh/dir/Inter4K_choose/1080P/GT
+    dataroot_lq: /home/wyh/dir/Inter4K_choose/1080P/deLR
+    dataroot_mv: /home/wyh/dir/Inter4K_choose/1080P/mvs
+    dataroot_res: /home/wyh/dir/Inter4K_choose/1080P/residual_y
+    io_backend:
+      type: disk
+
+    cache_data: false
+    num_frame: -1
+
+  test_3:
+    name: 2K_CRF23
+    type: VideoRecurrentPriorTestDataset
+    dataroot_gt: /home/wyh/dir/Inter4K_choose/2K/GT
+    dataroot_lq: /home/wyh/dir/Inter4K_choose/2K/deLR
+    dataroot_mv: /home/wyh/dir/Inter4K_choose/2K/mvs
+    dataroot_res: /home/wyh/dir/Inter4K_choose/2K/residual_y
+    io_backend:
+      type: disk
+
+    cache_data: false
+    num_frame: -1
+
+# network structures
+network_g:
+  type: OVSR
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_frame: 25
+  num_extract_block: 3
+  center_frame_idx: None
+  hr_in: False
+
+# path
+path:
+  pretrain_network_g: /home/wyh/dir/5/OVSR1/experiments/250711_ovsr_lhr_Conv_lhcres_256/models/net_g_290000.pth
+  strict_load_g: true
+  param_key_g: params
+
+# validation settings
+val:
+  save_img: true
+  suffix: ~  # add suffix to saved images, if None, use exp name
+  flip_seq: false
+  center_frame_only: false
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+
+    ssim: # metric name, can be arbitrary
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: false
