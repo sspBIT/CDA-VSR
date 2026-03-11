@@ -48,7 +48,7 @@ datasets:
 
 # network structures
 network_g:
-  type: OVSR
+  type: CDAVSR
   num_in_ch: 3
   num_out_ch: 3
   num_feat: 64

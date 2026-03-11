@@ -47,7 +47,7 @@ datasets:
 
 # network structures
 network_g:
-  type: OVSR
+  type: CDAVSR
   num_in_ch: 3
   num_out_ch: 3
   num_feat: 64
@@ -58,7 +58,7 @@ network_g:
 
 # path
 path:
-  pretrain_network_g: /home/wyh/dir/5/OVSR1/experiments/250711_ovsr_lhr_Conv_lhcres_256/models/net_g_290000.pth
+  pretrain_network_g: ~ #pretrained model path
   strict_load_g: true
   param_key_g: params
 
