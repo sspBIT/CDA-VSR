@@ -127,7 +127,7 @@ If you find this repository useful in your research, please cite:
 }
 ```
 ## Contact
-Please leave a issue or contact zhengqiang with bitwangyuhang@163.com
+Please leave a issue or contact Yuhang Wang with bitwangyuhang@163.com
 
 ## License and Acknowledgement
 
