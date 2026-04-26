@@ -24,7 +24,7 @@
 
 - **[2026/03]** Repository initialized.
 - **[2026/03]** README released.
-- **[Coming Soon]** Pretrained models and cleaned data preparation scripts will be released.
+- **[2026/04]** Pretrained model and dataset released.
 
 ---
 
@@ -86,10 +86,37 @@ CDA-VSR/
 │   └── test/
 │       ├── test_CDA-VSR_REDS4.yaml
 │       └── test_CDA-VSR_Inter4K.yaml
+├──pretrained_models/
+    └── best.pth
 ├── figures/                      # README figures
 ├── requirement.txt
 ├── LICENSE.txt
 └── README.md
+```
+## Dataset and Pretrained Models
+
+### Dataset
+
+We provide the processed REDS compressed-domain dataset used in this work.
+
+| Dataset | Description | Download |
+|---|---|---|
+| REDS_CRF18_23_28_new | Processed REDS dataset with compressed-domain information, including LR frames, motion vectors, residual maps, and frame-type information under different CRF settings. | [Baidu Netdisk](https://pan.baidu.com/s/1UHW5piWo2IS17N7ksgi73Q) |
+
+Extraction code: `zc8e`
+
+After downloading, please organize the dataset as follows:
+
+```text
+REDS_CRF18_23_28_new/
+├── train/
+└── test/
+```
+
+### Pretrained Models
+```text
+pretrained_models/
+└── best.pth
 ```
 
 ## How to use
