@@ -1,4 +1,4 @@
-# [CVPR 2026] CDA-VSR: Compressed-Domain-Aware Online Video Super-Resolution
+# [CVPR 2026 Highlight] CDA-VSR: Compressed-Domain-Aware Online Video Super-Resolution
 
 <p align="center">
   <img src="figures/teaser.png" width="900">
