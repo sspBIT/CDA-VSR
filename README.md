@@ -146,10 +146,10 @@ python basicsr/test.py -opt options/test/test_CDA-VSR_Inter4K.yaml
 ## Citation
 If you find this repository useful in your research, please cite:
 ```bibtex
-@article{wang2026cdavsr,
+@inproceedings{wang2026compressed,
   title={Compressed-Domain-Aware Online Video Super-Resolution},
   author={Wang, Yuhang and Li, Hai and Hou, Shujuan and Dong, Zhetao and Yang, Xiaoyao},
-  journal={arXiv preprint arXiv:2603.07694},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
   year={2026}
 }
 ```
